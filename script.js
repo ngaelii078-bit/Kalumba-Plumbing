@@ -169,3 +169,79 @@ motionPreference.addEventListener('change', queueReveal);
 $$('details').forEach(details => details.addEventListener('toggle', queueReveal));
 if (document.fonts) document.fonts.ready.then(queueReveal);
 queueReveal();
+
+const heroVideo = $('#hero-video');
+const videoToggle = $('#hero-video-toggle');
+const heroVisual = $('.hero-visual');
+const connection = navigator.connection;
+let manuallyPaused = false;
+let videoFailed = false;
+let heroVisible = $('.hero').getBoundingClientRect().bottom > 0;
+let playAttempt = 0;
+function videoAllowed() {
+  return !motionPreference.matches && !connection?.saveData && !videoFailed;
+}
+function updateVideoButton() {
+  const paused = heroVideo.paused;
+  videoToggle.setAttribute('aria-label', paused ? 'Play background video' : 'Pause background video');
+  $('.video-control-label', videoToggle).textContent = paused ? 'Play video' : 'Pause video';
+  $('.video-control-icon use', videoToggle).setAttribute('href', paused ? '#video-play' : '#video-pause');
+}
+async function syncHeroVideo() {
+  const attempt = ++playAttempt;
+  if (!videoAllowed()) {
+    heroVideo.pause();
+    heroVisual.classList.remove('video-ready');
+    videoToggle.hidden = true;
+    return;
+  }
+  if (!heroVisible || document.hidden || manuallyPaused) {
+    heroVideo.pause();
+    return;
+  }
+  if (!heroVideo.getAttribute('src')) {
+    heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
+    heroVideo.src = heroVideo.dataset.src;
+  }
+  try {
+    await heroVideo.play();
+  } catch {
+    // Autoplay restrictions are normal on some devices: offer deliberate play.
+    if (attempt === playAttempt && videoAllowed() && heroVisible && !document.hidden) {
+      videoToggle.hidden = false;
+      updateVideoButton();
+    }
+  }
+}
+heroVideo.addEventListener('playing', () => {
+  if (!videoAllowed() || !heroVisible || document.hidden || manuallyPaused) {
+    heroVideo.pause();
+    return;
+  }
+  heroVisual.classList.add('video-ready');
+  videoToggle.hidden = false;
+  updateVideoButton();
+});
+heroVideo.addEventListener('pause', updateVideoButton);
+heroVideo.addEventListener('error', () => {
+  videoFailed = true;
+  heroVisual.classList.remove('video-ready');
+  videoToggle.hidden = true;
+});
+videoToggle.addEventListener('click', () => {
+  manuallyPaused = !heroVideo.paused;
+  syncHeroVideo();
+});
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(entries => {
+    heroVisible = entries[0].isIntersecting;
+    syncHeroVideo();
+  }, { threshold: 0 }).observe($('.hero'));
+}
+document.addEventListener('visibilitychange', syncHeroVideo);
+motionPreference.addEventListener('change', syncHeroVideo);
+connection?.addEventListener('change', syncHeroVideo);
+syncHeroVideo();
+
+

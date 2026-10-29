@@ -13,3 +13,5 @@ Illustrative bathroom photography from Unsplash (not photographs of Kalumba proj
 - https://images.unsplash.com/photo-1620626011761-996317b8d101
 
 Google Fonts and the Google Maps embed need internet access; local images and the main website work without a server.
+
+The hero includes a local plumbing video with a matching poster, blue overlay and pause/play control. It respects reduced-motion and data-saver preferences and pauses offscreen. Video source and usage details are in `assets/VIDEO-CREDIT.md`.

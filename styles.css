@@ -149,3 +149,8 @@
 .contact-strip{background:#eaf7ff;border-color:#c9e7f8}.services-section{background:#f1f9fe}.booking{background:#e8f5fd}.button:hover{background:#dbf6ff}.button-navy{background:#0074c8;color:white}.button-navy:hover{background:#005ca8}.price-row:hover{background:#eaf7ff}.service-tags span{color:#315e7c;border-color:#bed9ea}.service-list{border-color:#9dc7e2}.service-detail{border-color:#c4dfee}
 .navy .section-label,.navy .section-index,.process-heading>p,.process-grid p{color:#d4edff}.process-grid>div{border-color:#ffffff55}.step-number>span{color:#bdeeff}.closing-bottom{border-color:#ffffff55;color:#deefff}.closing-bottom>a{color:white}
 @media(max-width:600px){.brand-logo{width:49px;height:48px}.brand{gap:8px}.brand-name{font-size:13px;padding-left:10px;letter-spacing:1.4px}.brand-name>span{font-size:5.5px;letter-spacing:.45px}}
+/* Full-width plumbing film, with brand-blue contrast behind the copy. */
+.hero .hero-visual:after{background:linear-gradient(90deg,rgba(0,49,96,.95) 0%,rgba(0,69,127,.86) 32%,rgba(0,83,144,.42) 63%,rgba(0,75,130,.13) 100%),linear-gradient(0deg,rgba(0,47,91,.55),transparent 55%)}
+.hero .hero-visual img,.hero-video{object-position:65% center;filter:brightness(.95) saturate(.85)}
+.hero-video-toggle{background:#005ca8aa;border-color:#bdeeff88}.hero-video-toggle:hover{background:#004783}.hero-description{color:#eff9ff}.hero .photo-caption{bottom:108px}
+@media(max-width:560px){.hero .hero-visual:after{background:linear-gradient(180deg,rgba(0,49,96,.94),rgba(0,62,115,.82) 45%,rgba(0,70,125,.32) 78%,rgba(0,47,91,.65))}.hero .hero-visual img,.hero-video{object-position:65% center}.hero .photo-caption{bottom:85px}}
